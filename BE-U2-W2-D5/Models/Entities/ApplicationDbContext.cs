@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 namespace BE_U2_W2_D5.Models.Entities
 {
 
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext :
+     IdentityDbContext<ApplicationUser>
     {
-
         public ApplicationDbContext()
         {
         }
@@ -15,9 +15,14 @@ namespace BE_U2_W2_D5.Models.Entities
         {
         }
 
+
+
         public DbSet<Cliente> Clienti { get; set; }
         public DbSet<Camera> Camere { get; set; }
         public DbSet<Prenotazione> Prenotazioni { get; set; }
+
+
+        public DbSet<ApplicationUser> AspNetUser { get; set; }
 
     }
 }

@@ -35,23 +35,22 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(option =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
 {
     option.SignIn.RequireConfirmedPhoneNumber = false; 
     option.SignIn.RequireConfirmedEmail = false; 
     option.SignIn.RequireConfirmedAccount = false; 
-    option.Password.RequiredLength = 10;
+    option.Password.RequiredLength = 10; 
     option.Password.RequireDigit = false; 
     option.Password.RequireLowercase = true; 
     option.Password.RequireUppercase = true; 
-    option.Password.RequireNonAlphanumeric = false; 
-                                                  
+    option.Password.RequireNonAlphanumeric = false;
 }
   ).AddEntityFrameworkStores<ApplicationDbContext>().
   AddDefaultTokenProviders(); 
 
-builder.Services.AddScoped<UserManager<IdentityUser>>(); 
-builder.Services.AddScoped<SignInManager<IdentityUser>>(); 
+builder.Services.AddScoped<UserManager<ApplicationUser>>(); 
+builder.Services.AddScoped<SignInManager<ApplicationUser>>(); 
 builder.Services.AddScoped<RoleManager<IdentityRole>>(); 
 
 var app = builder.Build();
