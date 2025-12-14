@@ -10,11 +10,15 @@ namespace BE_U2_W2_D5.Models.Dto
         [Required]
         public string Password { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Nome { get; set; }
         [Required]
-        public string Surname { get; set; }
+        public string Cognome { get; set; }
         [Required]
-        public string PhoneNumber { get; set; }
-        public DateTime Birthday { get; set; }
+        public string Telefono { get; set; }
+        [Required]
+        public string Sesso { get; set; }
+
+        public string Ruolo { get; set; }
+        public DateTime DataDiNascita { get; set; }
     }
 }

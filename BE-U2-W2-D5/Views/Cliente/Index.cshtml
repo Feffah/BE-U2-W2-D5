@@ -2,21 +2,8 @@
 
 
 <h1>Clienti</h1>
-<form asp-controller="Cliente" asp-action="Index" method="post">
-    <div class="mb-2">
-        <input type="text" name="Nome" class="form-control" placeholder="Nome" maxlength="50" />
-    </div>
-    <div class="mb-2">
-        <input type="text" name="Cognome" class="form-control" placeholder="Cognome" maxlength="50" />
-    </div>
-    <div class="mb-2">
-        <input type="email" name="Email" class="form-control" placeholder="Email" />
-    </div>
-    <div class="mb-2">
-        <input type="tel" name="Telefono" class="form-control" placeholder="Telefono" />
-    </div>
-    <button type="submit" class="btn btn-primary">Aggiungi Cliente</button>
-</form>
+
+
 
 <table class="table mt-4">
     <thead>
@@ -36,6 +23,8 @@
                 <td>@cliente.Cognome</td>
                 <td>@cliente.Email</td>
                 <td>@cliente.Telefono</td>
+                @if (User.IsInRole("Admin"))
+                {                 
                 <td>
                     <a asp-action="Update" asp-route-id="@cliente.IdCliente" class="btn btn-sm btn-warning">Modifica</a>
                     <form asp-action="Delete" method="post" style="display:inline;">
@@ -43,6 +32,7 @@
                         <button type="submit" class="btn btn-sm btn-danger">Elimina</button>
                     </form>
                 </td>
+                }
             </tr>
         }
     </tbody>

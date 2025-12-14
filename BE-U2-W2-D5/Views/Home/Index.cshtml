@@ -1,8 +1,24 @@
-﻿@{
+﻿@using BE_U2_W2_D5.Models.Entities
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
+    var user = UserManager.GetUserAsync(User).Result;
+    var fullName = user?.Name + " " + user?.Surname;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Benvenuto su Hotel Booking</h1>
+    @if (User.Identity?.IsAuthenticated != true)
+    {
+            <p>Per poter proseguire, è necessario effettuare l'accesso.</p>
+    <p>Clicca <a asp-controller="User" asp-action="Login">qui</a> per accedere</p>
+    <p>Se invece non sei ancora registrato, clicca <a asp-controller="User" asp-action="Register">qui</a> per creare il tuo profilo</p>
+    }
+    else
+    {
+        <h2>@fullName</h2>
+    }
+
+
 </div>

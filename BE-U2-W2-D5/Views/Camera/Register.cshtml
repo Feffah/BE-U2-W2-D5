@@ -1,0 +1,20 @@
+﻿<h1>Aggiungi una nuova Camera</h1>
+@if (User.IsInRole("Admin"))
+{
+    <form asp-controller="Camera" asp-action="Index" method="post">
+        <div class="mb-2">
+            <input type="number" name="Numero" class="form-control" placeholder="Numero camera" />
+        </div>
+        <div class="mb-2">
+            <input type="text" name="Tipo" class="form-control" placeholder="Tipo camera" />
+        </div>
+        <div class="mb-2">
+            <input type="number" step="0.01" name="Prezzo" class="form-control" placeholder="Prezzo" />
+        </div>
+        <button type="submit" class="btn btn-primary">Aggiungi Camera</button>
+    </form>
+}
+else
+{
+    <h2>Non hai i permessi per visualizzare questa pagina</h2>
+}

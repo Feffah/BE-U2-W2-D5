@@ -49,6 +49,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
   ).AddEntityFrameworkStores<ApplicationDbContext>().
   AddDefaultTokenProviders(); 
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/User/Login"; 
+    options.LogoutPath = "/User/Logout";
+    options.AccessDeniedPath = "/User/AccessDenied"; 
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); 
+});
+
 builder.Services.AddScoped<UserManager<ApplicationUser>>(); 
 builder.Services.AddScoped<SignInManager<ApplicationUser>>(); 
 builder.Services.AddScoped<RoleManager<IdentityRole>>(); 
@@ -65,6 +73,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

@@ -33,7 +33,7 @@ namespace BE_U2_W2_D5.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(RegisterRequest registerRequest)
+        public async Task<IActionResult> Register(RegisterRequest registerRequest)
         {
             try
             {
@@ -44,11 +44,12 @@ namespace BE_U2_W2_D5.Controllers
                     {
                         UserName = registerRequest.Email,
                         Email = registerRequest.Email,
-                        Name = registerRequest.Name,
-                        Surname = registerRequest.Surname,
-                        PhoneNumber = registerRequest.PhoneNumber,
+                        Name = registerRequest.Nome,
+                        Surname = registerRequest.Cognome,
+                        PhoneNumber = registerRequest.Telefono,
                         CreatedAt = DateTime.Now,
-                        Birthday = registerRequest.Birthday,
+                        Birthday = registerRequest.DataDiNascita,
+                        Gender = registerRequest.Sesso,
                         Id = Guid.NewGuid().ToString(),
                         IsDeleted = false,
                         EmailConfirmed = true,
@@ -60,24 +61,75 @@ namespace BE_U2_W2_D5.Controllers
                     IdentityResult result = await _userManager.CreateAsync(user, registerRequest.Password);
                     if (result.Succeeded)
                     {
-
-
-                        var roleExist = await this._roleManager.RoleExistsAsync("User");
-                        if (roleExist)
+                        var role = "User";
+                        if (registerRequest.Ruolo!= null && registerRequest.Ruolo!= "")
                         {
-                            await this._roleManager.CreateAsync(new IdentityRole("User"));
+                            role= registerRequest.Ruolo;
+                        }
+
+                        var roleExist = await this._roleManager.RoleExistsAsync(role);
+                        if (!roleExist)
+                        {
+                            await this._roleManager.CreateAsync(new IdentityRole(role));
 
 
                         }
-                        await this._userManager.AddToRoleAsync(user, "User");
+                        await this._userManager.AddToRoleAsync(user, role);
 
                     }
 
 
                 }
+
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", "Errore durante la registrazione");
+                return RedirectToAction("Index", "Home");
+            }
+        }
+        public IActionResult Login()
+        {
+            return View();
+        }
+        //pagina di login
+        [HttpPost]
+
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        {
+            try
+            {
+
+                    var result = await _signInManager.PasswordSignInAsync(loginRequest.Email, loginRequest.Password, loginRequest.RememberMe, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+               
+                ModelState.AddModelError("", "Credenziali non valide");
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+        }
+        
+        //metodo di logout
+
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Home");
             }
         }
     }

@@ -1,9 +1,12 @@
 ﻿using BE_U2_W2_D5.Models.Entities;
 using BE_U2_W2_D5.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BE_U2_W2_D5.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
+
     public class CameraController : Controller
     {
         private readonly ICameraServices _cameraServices;
@@ -78,6 +81,11 @@ namespace BE_U2_W2_D5.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
         }
     }
 }

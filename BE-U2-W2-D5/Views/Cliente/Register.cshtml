@@ -1,0 +1,23 @@
+﻿<h1>Aggiungi Nuovo Cliente</h1>
+@if (User.IsInRole("Admin"))
+{
+    <form asp-controller="Cliente" asp-action="Index" method="post">
+        <div class="mb-2">
+            <input type="text" name="Nome" class="form-control" placeholder="Nome" maxlength="50" />
+        </div>
+        <div class="mb-2">
+            <input type="text" name="Cognome" class="form-control" placeholder="Cognome" maxlength="50" />
+        </div>
+        <div class="mb-2">
+            <input type="email" name="Email" class="form-control" placeholder="Email" />
+        </div>
+        <div class="mb-2">
+            <input type="tel" name="Telefono" class="form-control" placeholder="Telefono" />
+        </div>
+        <button type="submit" class="btn btn-primary">Aggiungi Cliente</button>
+    </form>
+}
+else
+{
+    <h2>Non hai i permessi per visualizzare questa pagina</h2>
+}
